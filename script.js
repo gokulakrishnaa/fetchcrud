@@ -20,12 +20,11 @@ async function getAllDetails() {
     <button onclick="editUser(${user.id})">EDIT</button>
     <button onclick="deleteUser(${user.id})">DELETE</button>
     <div class="edit-user-form edit-${user.id}">
-    <input type="text" value=${user.name} placeholder="Enter your name" class="editName edit-${user.id}-user-name">
-    <input type="text" value=${user.avatar} placeholder="Enter pic url" class="editAvatar edit-${user.id}-user-avatar">
+    <input type="text" value="${user.name}" placeholder="Enter your name" class="edit-${user.id}-user-name">
+    <input type="text" value="${user.avatar}" placeholder="Enter pic url" class="edit-${user.id}-user-avatar">
     <button onclick="saveUser(${user.id})">Save</button>
     </div>
     </div>
-    
     </div>`;
   });
   console.log(details);
@@ -62,20 +61,17 @@ function editUser(userId) {
 }
 
 async function saveUser(userId) {
-  const name = document.querySelector(".editName").value;
-  const avatar = document.querySelector(".editAvatar").value;
-  const data1 = await fetch(
-    "https://616a3fa516e7120017fa0ee6.mockapi.io/users",
+  const name = document.querySelector(`.edit-${userId}-user-name`).value;
+  const avatar = document.querySelector(`.edit-${userId}-user-avatar`).value;
+  const data = await fetch(
+    "https://616a3fa516e7120017fa0ee6.mockapi.io/users/" + userId,
     {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: name, avatar: avatar }),
     }
   );
   getAllDetails();
-  const data = await fetch(
-    "https://616a3fa516e7120017fa0ee6.mockapi.io/users/" + userId,
-    { method: "DELETE" }
-  );
-  getAllDetails();
 }
+
+
